@@ -1,14 +1,20 @@
-import { Input, Label } from "components/ContactForm/ContactFormStyled"
+import { Input, Label } from 'components/ContactForm/ContactFormStyled';
+import { useDispatch, useSelector } from 'react-redux';
+import { filteredContacts } from 'redux/filter/filterSlice';
 
+export const Filter = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filter);
 
-export const Filter = ({ onChange, value }) => {
-    return (
-        <Label htmlFor="filter">
-            Find contacts by name
-            <Input type="text" name="filter" value={value} onChange={onChange} />
-        </Label>
-    )
-
-}
-
-
+  return (
+    <Label htmlFor="filter">
+      Find contacts by name
+      <Input
+        type="text"
+        name="filter"
+        value={filter}
+        onChange={e => dispatch(filteredContacts(e.target.value))}
+      />
+    </Label>
+  );
+};

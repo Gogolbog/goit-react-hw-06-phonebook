@@ -1,10 +1,15 @@
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import { Button, Form, Input, Label } from './ContactFormStyled';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contacts/contactsSlice';
 
-export default function ContactForm({ addContact, contacts }) {
+export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
 
   const findSimilarContact = () => {
     return contacts.find(contact => contact.name === name);
@@ -16,7 +21,7 @@ export default function ContactForm({ addContact, contacts }) {
     const newContact = { id, name, number };
     findSimilarContact()
       ? alert(`${name} is already in contacts.`)
-      : addContact(newContact);
+      : dispatch(addContact(newContact));
     setName('');
     setNumber('');
   };
